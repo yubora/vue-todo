@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem" class="shadow">
+            <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem" class="shadow">
                 <i class="checkBtn fas fa-check" aria-hidden="true"></i>
                 {{ todoItem }}
                 <span class="removeBtn" type="button" v-on:click="removeTodo(todoItem, index)">
@@ -14,26 +14,14 @@
 
 <script>
 export default {
-    data() {
-       return {
-           todoItems: []
-       }
-    },
-    created() {
-        if(localStorage.length > 0){
-            for(var i=0; i<localStorage.length; i++){
-                this.todoItems.push(localStorage.key(i));
-            }
-        }
-    },
+    props:['propsdata'],
     methods: {
         removeTodo(todoItem, index) {
-            console.log(todoItem, index);
-            localStorage.removeItem(todoItem);
+            //localStorage.removeItem(todoItem);
+            this.$emit('removeTodo', todoItem, index);
             this.todoItems.splice(index, 1);  //splice(index, cnt) : index에서 cnt만큼 삭제하는 자바스크립트 내장API
 
-        }
-
+        },
     }
 }
 </script>
